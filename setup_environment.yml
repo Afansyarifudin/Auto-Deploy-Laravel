@@ -1,0 +1,18 @@
+---
+- name: Setup Server
+  hosts: all
+  # become: yes
+  tasks:
+    - name: Copy setup.sh script to the server
+      copy:
+        src: ./setup.sh
+        dest: /tmp/setup.sh
+        mode: "0755"
+
+    - name: Run setup.sh script
+      shell: /tmp/setup.sh
+      register: setup_output
+
+    - name: Display the output of the setup script
+      debug:
+        var: setup_output.stdout

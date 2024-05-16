@@ -1,0 +1,20 @@
+---
+- name: Install NVM and Node.js
+  hosts: app_server
+  # become: yes
+  tasks:
+    - name: Install curl (if not already installed)
+      package:
+        name: curl
+        state: present
+
+    - name: Download NVM installation script
+      shell: curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+      args:
+        creates: /home/{{ ansible_user }}/nvm # Ensures the script is not re-downloaded if already installed
+
+    - name: Load NVM environment
+      shell: source /home/{{ ansible_user }}/.bashrc
+
+    - name: Install Node.js version 22
+      shell: nvm install 22

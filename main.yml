@@ -1,0 +1,17 @@
+- name: Setup App Server
+  hosts: app_server
+  tasks:
+    - name: Setup Nginx
+      include_tasks: server_tasks/install_nginx.yml
+
+    - name: Setup Node
+      include_tasks: server_tasks/install_node.yml
+
+    - name: Setup Php
+      include_tasks: server_tasks/install_php.yml
+
+    - name: Setup Database
+      include_tasks: db_tasks/database_setup.yaml
+
+    - name: Setup Environment
+      include_tasks: setup_eonvironment.yml

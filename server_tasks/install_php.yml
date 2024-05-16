@@ -1,0 +1,38 @@
+---
+- name: Install PHP 8.1
+  hosts: app_server
+  # become: yes # Run tasks with sudo
+  tasks:
+    - name: Install software-properties-common
+      apt:
+        name: software-properties-common
+        state: present
+        update_cache: yes
+
+    - name: Add ondrej/php PPA repository
+      command: add-apt-repository ppa:ondrej/php -y
+
+    - name: Update package cache after adding the repository
+      apt:
+        update_cache: yes
+
+    - name: Install packages
+      apt:
+        pkg:
+          - php
+          - php-xml
+          - php-mysql
+          - libapache2-mod-php
+          - apache2
+          - git
+          - zip
+          - unzip
+          - curl
+          - php-curl
+        state: latest
+        update_cache: yes
+
+    - name: Install composer
+      shell: curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+      args:
+        creates: /usr/local/bin/composer
